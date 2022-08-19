@@ -11,8 +11,8 @@ export default function Home() {
       <section>
         <p>information about gallery</p>
       </section>
-      <section>
-        <h2>Blog</h2>
+      <section className="h-full w-full">
+        <h2 className="text-red-600">Blog</h2>
         <ul>
           <li>images would be here</li>
           <Link href={`/`}>

@@ -22,7 +22,7 @@ export default function imagePage(props:{imageData:{title:string}}) {
       </Head>
       <article>
         {id}
-        <h1> image should be here </h1>
+        <h1 className="text-red-600"> image should be here </h1>
       </article>
     </Layout>
   );

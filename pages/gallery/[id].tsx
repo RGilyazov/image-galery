@@ -3,7 +3,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 //import { useEffect } from "react";
 
-export default function Post(props) {
+export default function imagePage(props:{imageData:{title:string}}) {
   const router = useRouter();
   const query = router.query;
 
@@ -14,10 +14,10 @@ export default function Post(props) {
   const { id } = router.query;
 
   return (
-    <Layout>
+    <Layout home>
       <Head>
         <title>
-          {props.postData?.title ? props.postData.title : "no title"}
+          {props.imageData?.title ? props.imageData.title : "no title"}
         </title>
       </Head>
       <article>

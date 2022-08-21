@@ -21,7 +21,7 @@ export default function ImagePreview({
 }) {
   const result = (
     <div
-      className={`image-wrapper cursor-pointer border-2 bg-white border-white rounded-lg shadow-xl p-1 h-fit ${
+      className={`image-wrapper cursor-pointer border-2 bg-white border-white rounded-lg shadow-xl p-1 h-fit duration-500 ${
         noHower ? "" : "hover:border-black"
       } `}
     >

@@ -16,17 +16,13 @@ export default function GalleryPreview({
 } & GalleryData) {
   const result = (
     <div
-      className={`h-fit bg-white border-2 cursor-pointer rounded-lg ${
+      className={`h-fit bg-white border-2 cursor-pointer rounded-lg duration-500 ${
         noHower ? "" : "hover:border-black"
       }`}
     >
       <Link href={`/gallery/${id}`}>
         <div>
-          <h1
-            className={`text-center cursor-pointer text-lg font-bold ${
-              noHower ? "" : "hover:underline"
-            }`}
-          >
+          <h1 className={`text-center cursor-pointer text-lg font-bold`}>
             {name}
           </h1>
           <div

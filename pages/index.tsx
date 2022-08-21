@@ -1,20 +1,19 @@
 import Head from "next/head";
 import Layout, { siteTitle } from "../components/layout";
-import Link from "next/link";
-import { getAllImagesData } from "../api_lib/images";
-import Image from "next/image";
-import Gallery from "../components/gallery";
+import { gatAllGalleriesData } from "../api_lib/images";
+import GalleryPreview from "../components/galleryPreview";
+import { GalleryData } from "../api_lib/imagesTypes";
 
 export async function getStaticProps() {
-  const allImagesData = getAllImagesData();
+  const galleriesData = await gatAllGalleriesData();
   return {
     props: {
-      allImagesData,
+      galleriesData,
     },
   };
 }
 
-export default function Home({ allImagesData }) {
+export default function Home({ galleriesData }) {
   const result = (
     <Layout home>
       <Head>
@@ -23,7 +22,18 @@ export default function Home({ allImagesData }) {
       <section>
         <p>information about gallery</p>
       </section>
-      <Gallery images={allImagesData} />
+      <div className="flex flex-row justify-start flex-wrap border-2 bg-yellow-50 p-2 gap-2">
+        {galleriesData.map((galleryData: GalleryData) => (
+          <GalleryPreview
+            width={500}
+            height={500}
+            id={galleryData.id}
+            name={galleryData.name}
+            description={galleryData.description}
+            images={galleryData.images}
+          />
+        ))}
+      </div>
     </Layout>
   );
   return result;

@@ -1,0 +1,13 @@
+{
+   "gallery1":{
+         "name":"gallery 1 name",
+        "description": "gallery 1 description",
+        "images":["photo_2022-08-19_22-18-54","photo_2022-08-20_12-00-44","photo_2022-08-20_12-00-48","photo_2022-08-20_12-00-51"]
+        },
+  "gallery 2":{
+         "name":"!!!gallery 2 name",
+        "description": "!!!gallery 2 description",
+        "images":["photo_2022-08-19_22-18-54","photo_2022-08-20_12-00-44"]
+        }
+
+}

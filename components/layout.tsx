@@ -18,7 +18,7 @@ export default function Layout({
         <meta name="og:title" content={siteTitle} />
       </Head>
       <header>the header</header>
-      <main className="max-h-full">{children}</main>
+      <main className="max-h-full p-2">{children}</main>
       {!home && (
         <div>
           <Link href="/">

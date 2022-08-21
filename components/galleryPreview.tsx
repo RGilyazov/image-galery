@@ -1,41 +1,52 @@
-import { ImageData } from "../api_lib/imagesTypes";
+import { GalleryData } from "../api_lib/imagesTypes";
 import ImagePreview from "../components/imagePreview";
 import Link from "next/link";
 
 export default function GalleryPreview({
   width,
   height,
+  noHower,
   id,
   name,
-  description,
   images,
 }: {
   width: number;
   height: number;
-  id: string;
-  name: string;
-  description: string;
-  images: ImageData[];
-}) {
+  noHower?: boolean;
+} & GalleryData) {
   const result = (
-    <div className="bg-white hover:opacity-70 border-2 rounded-lg">
+    <div
+      className={`h-fit bg-white border-2 cursor-pointer rounded-lg ${
+        noHower ? "" : "hover:border-black"
+      }`}
+    >
       <Link href={`/gallery/${id}`}>
-        <div
-          className="flex flex-row justify-evenly gap-2 p-2 align-middle flex-wrap"
-          style={{ width: width, height: height }}
-        >
-          {images
-            .filter((_, index) => index < 4)
-            .map((imageData) => (
-              <ImagePreview
-                width={width / 2 - 30}
-                height={height / 2 - 30}
-                name={imageData.name}
-                src={imageData.src}
-                href={`/gallery/${id}`}
-                id={imageData.id}
-              ></ImagePreview>
-            ))}
+        <div>
+          <h1
+            className={`text-center cursor-pointer text-lg font-bold ${
+              noHower ? "" : "hover:underline"
+            }`}
+          >
+            {name}
+          </h1>
+          <div
+            className="flex flex-row justify-evenly gap-2 p-2 align-middle flex-wrap"
+            style={{ width: width, height: height }}
+          >
+            {images
+              .filter((_, index) => index < 4)
+              .map((imageData) => (
+                <ImagePreview
+                  noHower
+                  width={width / 2 - 30}
+                  height={height / 2 - 30}
+                  name={imageData.name}
+                  src={imageData.src}
+                  href={`/gallery/${id}`}
+                  id={imageData.id}
+                ></ImagePreview>
+              ))}
+          </div>
         </div>
       </Link>
     </div>

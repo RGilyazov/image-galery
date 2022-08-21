@@ -13,25 +13,19 @@ export async function getStaticProps() {
   };
 }
 
-export default function Home({ galleriesData }) {
+export default function Home({
+  galleriesData,
+}: {
+  galleriesData: GalleryData[];
+}) {
   const result = (
     <Layout home>
       <Head>
         <title>{siteTitle}</title>
       </Head>
-      <section>
-        <p>information about gallery</p>
-      </section>
-      <div className="flex flex-row justify-start flex-wrap border-2 bg-yellow-50 p-2 gap-2">
+      <div className="flex-grow flex flex-row justify-start flex-wrap border-2 bg-yellow-50 p-2 gap-2">
         {galleriesData.map((galleryData: GalleryData) => (
-          <GalleryPreview
-            width={500}
-            height={500}
-            id={galleryData.id}
-            name={galleryData.name}
-            description={galleryData.description}
-            images={galleryData.images}
-          />
+          <GalleryPreview width={500} height={500} {...galleryData} />
         ))}
       </div>
     </Layout>

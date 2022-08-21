@@ -17,7 +17,7 @@ export default function imagePage({ imageData }: { imageData: ImageData }) {
       <Head>
         <title>{imageData.name}</title>
       </Head>
-      <GalleryImage imageData={imageData}></GalleryImage>
+      <GalleryImage {...imageData}></GalleryImage>
     </Layout>
   );
 }

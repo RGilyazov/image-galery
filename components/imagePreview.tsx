@@ -8,20 +8,26 @@ export default function ImagePreview({
   id,
   width,
   height,
+  noHower,
   href,
 }: {
   name: string;
   src: string;
-  href: string;
   id: string;
   width: number;
   height: number;
+  noHower?: boolean;
+  href: string;
 }) {
   const result = (
-    <div className="image-wrapper bg-white shadow-xl rounded-lg p-1 h-fit">
+    <div
+      className={`image-wrapper cursor-pointer border-2 bg-white border-white rounded-lg shadow-xl p-1 h-fit ${
+        noHower ? "" : "hover:border-black"
+      } `}
+    >
       <Link href={href}>
         <Image
-          className="shadow-xl rounded-lg hover:opacity-70"
+          className={`shadow-xl rounded-lg`}
           src={src}
           alt={name}
           width={width}

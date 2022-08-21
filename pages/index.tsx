@@ -4,7 +4,7 @@ import { gatAllGalleriesData } from "../api_lib/images";
 import GalleryPreview from "../components/galleryPreview";
 import { GalleryData } from "../api_lib/imagesTypes";
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const galleriesData = await gatAllGalleriesData();
   return {
     props: {
@@ -23,7 +23,7 @@ export default function Home({
       <Head>
         <title>{siteTitle}</title>
       </Head>
-      <div className="flex-grow flex flex-row justify-start flex-wrap border-2 bg-white p-2 gap-2">
+      <div className="flex-grow flex flex-row justify-start flex-wrap border-2 rounded-lg bg-white p-2 gap-2">
         {galleriesData.map((galleryData: GalleryData) => (
           <GalleryPreview
             key={galleryData.id}

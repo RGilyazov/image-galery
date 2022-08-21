@@ -16,7 +16,7 @@ export default function GalleryPreview({
 } & GalleryData) {
   const result = (
     <div
-      className={`h-fit bg-yellow-50 border-2 cursor-pointer rounded-lg duration-500 ${
+      className={`h-fit bg-gray-50 border-2 cursor-pointer rounded-lg duration-500 ${
         noHower ? "" : "hover:border-black"
       }`}
     >

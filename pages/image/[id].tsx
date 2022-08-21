@@ -5,13 +5,20 @@ import { ImageData } from "../../api_lib/imagesTypes";
 import GalleryImage from "../../components/galleryImage";
 
 export async function getServerSideProps({ params }) {
-  const imageData = await getImageData(params.id);
-  return {
-    props: imageData,
-  };
+  try {
+    const imageData = await getImageData(params.id);
+    return {
+      props: imageData,
+    };
+  } catch (e) {
+    return {
+      props: { imageData: null },
+    };
+  }
 }
 
 export default function imagePage({ imageData }: { imageData: ImageData }) {
+  if (!imageData) return <h1>image not found!</h1>;
   return (
     <Layout>
       <Head>

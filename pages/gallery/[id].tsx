@@ -5,15 +5,22 @@ import { GalleryData } from "../../api_lib/imagesTypes";
 import Gallery from "../../components/gallery";
 
 export async function getServerSideProps({ params }) {
-  const galleryData: GalleryData = await getGalleryData(params.id);
-  return {
-    props: {
-      galleryData,
-    },
-  };
+  try {
+    const galleryData: GalleryData = await getGalleryData(params.id);
+    return {
+      props: {
+        galleryData,
+      },
+    };
+  } catch (e) {
+    return {
+      props: { galleryData: null },
+    };
+  }
 }
 
 export default function Home({ galleryData }: { galleryData: GalleryData }) {
+  if (!galleryData) return <h1>gallery not found!</h1>;
   const result = (
     <Layout>
       <Gallery

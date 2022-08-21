@@ -23,9 +23,14 @@ export default function Home({
       <Head>
         <title>{siteTitle}</title>
       </Head>
-      <div className="flex-grow flex flex-row justify-start flex-wrap border-2 bg-yellow-50 p-2 gap-2">
+      <div className="flex-grow flex flex-row justify-start flex-wrap border-2 bg-white p-2 gap-2">
         {galleriesData.map((galleryData: GalleryData) => (
-          <GalleryPreview width={500} height={500} {...galleryData} />
+          <GalleryPreview
+            key={galleryData.id}
+            width={500}
+            height={500}
+            {...galleryData}
+          />
         ))}
       </div>
     </Layout>

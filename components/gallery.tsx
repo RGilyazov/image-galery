@@ -1,7 +1,6 @@
 import ImagePreview from "./imagePreview";
 import { GalleryData, ImageData } from "../api_lib/imagesTypes";
 import Head from "next/head";
-import { Fragment } from "react";
 
 export default function Gallery({ name, description, images }: GalleryData) {
   const result = (
@@ -17,10 +16,11 @@ export default function Gallery({ name, description, images }: GalleryData) {
       </span>
       <ul className="flex-grow flex flex-row justify-evenly flex-wrap border-2 gap-2 p-2 bg-yellow-50">
         {images.map((imageData: ImageData) => (
-          <li>
+          <li key={imageData.id}>
             <ImagePreview
               width={300}
               height={300}
+              noMaxWidth
               {...imageData}
             ></ImagePreview>
           </li>

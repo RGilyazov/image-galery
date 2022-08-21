@@ -16,7 +16,7 @@ export default function GalleryPreview({
 } & GalleryData) {
   const result = (
     <div
-      className={`h-fit bg-white border-2 cursor-pointer rounded-lg duration-500 ${
+      className={`h-fit bg-yellow-50 border-2 cursor-pointer rounded-lg duration-500 ${
         noHower ? "" : "hover:border-black"
       }`}
     >
@@ -33,6 +33,7 @@ export default function GalleryPreview({
               .filter((_, index) => index < 4)
               .map((imageData) => (
                 <ImagePreview
+                  key={imageData.id}
                   noHower
                   width={width / 2 - 30}
                   height={height / 2 - 30}

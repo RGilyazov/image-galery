@@ -1,9 +1,17 @@
 import { ImageData } from "../api_lib/imagesTypes";
+import Image from "next/image";
 
 export default function GalleryImage({ src, description }: ImageData) {
   return (
-    <div className="max-h-full w-full flex flex-col items-center content-center">
-      <img className="max-h-[90vh] max-w-[90vw] object-contain" src={src} />
+    <div className="relative w-full h-full flex flex-col items-center content-center">
+      <Image
+        src={src}
+        alt={description}
+        layout="fill"
+        objectFit="contain"
+        placeholder="blur"
+        blurDataURL="/placeholder.jpg"
+      />
       <p>{description}</p>
     </div>
   );

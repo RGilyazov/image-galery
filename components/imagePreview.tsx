@@ -43,16 +43,16 @@ export default function ImagePreview({
             alt={name}
             width={(imageSize.width * height) / imageSize.height}
             height={height}
+            layout="intrinsic"
+            objectFit="contain"
+            placeholder="blur"
+            blurDataURL="/placeholder.jpg"
             onLoadingComplete={(target) => {
               setSmageSize({
                 width: target.naturalWidth,
                 height: target.naturalHeight,
               });
             }}
-            layout="intrinsic"
-            objectFit="contain"
-            placeholder="blur"
-            blurDataURL="/placeholder.jpg"
           />
         </Link>
       </div>

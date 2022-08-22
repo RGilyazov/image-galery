@@ -5,7 +5,10 @@ function getIdFromFileName(fileName: string): string {
   return fileName.replace(/\.jpg$/, "");
 }
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+export default async function ApiGetGallery(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   const galleryId: string = String(req.query.id);
   const filePath = path.resolve(".", `externalImageLibraryData`);
   const jsonData = await fsPromises.readFile(
@@ -26,4 +29,4 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     });
     res.send({ id: galleryId, ...gallery });
   } else res.status(404).json({ err: "gallery not found" });
-};
+}

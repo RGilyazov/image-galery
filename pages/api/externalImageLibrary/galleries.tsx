@@ -2,7 +2,10 @@ import fsPromises from "fs/promises";
 import path from "path";
 import { NextApiRequest, NextApiResponse } from "next";
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+export default async function ApiGetGalleries(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   const filePath = path.resolve(".", `externalImageLibraryData`);
   const jsonData = await fsPromises.readFile(
     filePath + "/gallery.json",
@@ -12,4 +15,4 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   res.setHeader("Content-Type", "text/json");
   res.send(objectData);
-};
+}

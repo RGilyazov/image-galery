@@ -27,20 +27,20 @@ function getGalleriesObject(): GaleryObjectType {
 //name and description should come from somewhere else
 //need to add some storage for that. JSON file for every image or
 //change format of general JSON database.
-function getImageDataFromId(id: string): ImageData {
+function getImageDataFromId(id: string, galleryId: string): ImageData {
   const fileName = `${id}.jpg`;
   const imageData: ImageData = {
     id: id,
     src: getSrcFromFileName(fileName),
     name: fileName,
     description: fileName,
-    href: `/image/${id}`,
+    href: `/gallery/${galleryId}/image/${id}`,
   };
   return imageData;
 }
 
-function getImageDataFromArray(ids: string[]): ImageData[] {
-  return ids.map((imageID: string) => getImageDataFromId(imageID));
+function getImageDataFromArray(ids: string[], galleryId: string): ImageData[] {
+  return ids.map((imageID: string) => getImageDataFromId(imageID, galleryId));
 }
 
 function getIdFromFileName(fileName: string): string {
@@ -53,22 +53,33 @@ function getSrcFromFileName(fileName: string): string {
   return `${IMAGES_API_ROUTE}${fileName}`;
 }
 
-export function getAllImagesIds(): { params: { id: string } }[] {
-  const fileNames = fs.readdirSync(IMAGES_DIRECTORY);
-  return fileNames.map((fileName) => {
-    return {
-      params: {
-        id: getIdFromFileName(fileName),
-      },
-    };
-  });
+export function getAllImagesIds(): {
+  params: { imageId: string; galleryId: string };
+}[] {
+  const objectData = getGalleriesObject();
+  const res = [];
+  for (let galleryId of Object.keys(objectData)) {
+    const galleryObject = objectData[galleryId];
+    galleryObject.images.forEach((fileName) => {
+      res.push({
+        params: {
+          imageId: getIdFromFileName(fileName),
+          galleryId: galleryId,
+        },
+      });
+    });
+  }
+  return res;
 }
 
-export function getImageData(id: string): { id: string; imageData: ImageData } {
+export function getImageData(
+  id: string,
+  galleryId: string
+): { id: string; imageData: ImageData } {
   const fileName = getFileNameFromId(id);
   const filePath = path.join(IMAGES_DIRECTORY, fileName);
   if (fs.existsSync(filePath)) {
-    const imageData = getImageDataFromId(id);
+    const imageData = getImageDataFromId(id, galleryId);
     return {
       id,
       imageData,
@@ -76,14 +87,14 @@ export function getImageData(id: string): { id: string; imageData: ImageData } {
   } else throw Error(`image ${id} not found`);
 }
 
-export function getAllImagesData(): ImageData[] {
+/* export function getAllImagesData(): ImageData[] {
   const fileNames = fs.readdirSync(IMAGES_DIRECTORY);
   const allImagesData = fileNames.map((fileName) => {
     const id = getIdFromFileName(fileName);
-    return getImageDataFromId(id);
+    return getImageDataFromId(id, "");
   });
   return allImagesData;
-}
+} */
 
 export function getGalleryData(galleryId: string): GalleryData {
   const objectData = getGalleriesObject();
@@ -91,7 +102,7 @@ export function getGalleryData(galleryId: string): GalleryData {
     const galleryObject = objectData[galleryId];
     const gallery = {
       ...galleryObject,
-      images: getImageDataFromArray(galleryObject.images),
+      images: getImageDataFromArray(galleryObject.images, galleryId),
       id: galleryId,
     };
     return gallery;
@@ -105,7 +116,7 @@ export function gatAllGalleriesData(): GalleryData[] {
     const galleryObject = galleryData[key];
     const gallery = {
       ...galleryObject,
-      images: getImageDataFromArray(galleryObject.images),
+      images: getImageDataFromArray(galleryObject.images, key),
       id: key,
     };
     res.push(gallery);
@@ -116,14 +127,14 @@ export function gatAllGalleriesData(): GalleryData[] {
 
 export function getAllGalleryIds(): {
   params: {
-    id: string;
+    galleryId: string;
   };
 }[] {
   const galleryData = getGalleriesObject();
   return Object.keys(galleryData).map((key) => {
     return {
       params: {
-        id: key,
+        galleryId: key,
       },
     };
   });

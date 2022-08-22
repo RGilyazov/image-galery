@@ -1,12 +1,12 @@
 import Head from "next/head";
-import { getImageData, getAllImagesIds } from "../../api_lib/images";
-import { ImageData } from "../../api_lib/imagesTypes";
-import Layout from "../../components/layout";
-import GalleryImage from "../../components/galleryImage";
+import { getImageData, getAllImagesIds } from "../../../../api_lib/images";
+import { ImageData } from "../../../../api_lib/imagesTypes";
+import Layout from "../../../../components/layout";
+import GalleryImage from "../../../../components/galleryImage";
 
 export async function getStaticProps({ params }) {
   try {
-    const imageData = await getImageData(params.id);
+    const imageData = getImageData(params.imageId, params.galleryId);
     return {
       props: imageData,
     };
@@ -18,7 +18,7 @@ export async function getStaticProps({ params }) {
 }
 
 export async function getStaticPaths() {
-  const AllImagesIds = await getAllImagesIds();
+  const AllImagesIds = getAllImagesIds();
   return {
     paths: AllImagesIds,
     fallback: false,

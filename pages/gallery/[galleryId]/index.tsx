@@ -1,11 +1,11 @@
-import { getGalleryData, getAllGalleryIds } from "../../api_lib/images";
-import { GalleryData } from "../../api_lib/imagesTypes";
-import Layout from "../../components/layout";
-import Gallery from "../../components/gallery";
+import { getGalleryData, getAllGalleryIds } from "../../../api_lib/images";
+import { GalleryData } from "../../../api_lib/imagesTypes";
+import Layout from "../../../components/layout";
+import Gallery from "../../../components/gallery";
 
 export async function getStaticProps({ params }) {
   try {
-    const galleryData: GalleryData = await getGalleryData(params.id);
+    const galleryData: GalleryData = await getGalleryData(params.galleryId);
     return {
       props: {
         galleryData,

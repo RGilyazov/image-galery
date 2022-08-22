@@ -29,7 +29,7 @@ export default function Layout({
       <main className="flex flex-grow p-2 flex-col">{children}</main>
       {!home && (
         <Link href={backLink}>
-          <a className="rounded-lg p-2 m-2 w-fit text-white  bg-stone-500 hover:bg-blue-800 border-solid border-2">
+          <a className="rounded-lg p-2 mb-2 ml-2 mr-2 w-fit text-white  bg-stone-500 hover:bg-blue-800 border-solid border-2">
             {backLinkText}
           </a>
         </Link>

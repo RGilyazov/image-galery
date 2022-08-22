@@ -28,7 +28,7 @@ export default function ImagePreview({
 
   return (
     <div
-      className={`overflow-hidden image-wrapper cursor-pointer border-2 bg-white border-white rounded-lg shadow-xl p-1 h-fit duration-500 ${
+      className={`overflow-hidden image-wrapper cursor-pointer border-2 bg-white border-white rounded-lg shadow-xl p-1 h-fit transition-all duration-1000 ${
         noHower ? "" : "hover:border-black"
       } `}
     >

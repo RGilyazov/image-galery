@@ -1,6 +1,6 @@
+import Link from "next/link";
 import { GalleryData } from "../api_lib/imagesTypes";
 import ImagePreview from "../components/imagePreview";
-import Link from "next/link";
 
 export default function GalleryPreview({
   width,

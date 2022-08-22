@@ -1,6 +1,6 @@
-import Layout from "../../components/layout";
 import { getGalleryData, getAllGalleryIds } from "../../api_lib/images";
 import { GalleryData } from "../../api_lib/imagesTypes";
+import Layout from "../../components/layout";
 import Gallery from "../../components/gallery";
 
 export async function getStaticProps({ params }) {

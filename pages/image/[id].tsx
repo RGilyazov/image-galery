@@ -1,7 +1,7 @@
-import Layout from "../../components/layout";
 import Head from "next/head";
 import { getImageData, getAllImagesIds } from "../../api_lib/images";
 import { ImageData } from "../../api_lib/imagesTypes";
+import Layout from "../../components/layout";
 import GalleryImage from "../../components/galleryImage";
 
 export async function getStaticProps({ params }) {

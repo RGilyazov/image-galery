@@ -1,5 +1,5 @@
-import { ImageData } from "../api_lib/imagesTypes";
 import Image from "next/image";
+import { ImageData } from "../api_lib/imagesTypes";
 
 export default function GalleryImage({ src, description }: ImageData) {
   return (

@@ -1,8 +1,8 @@
 import Head from "next/head";
 import Layout, { siteTitle } from "../components/layout";
 import { gatAllGalleriesData } from "../api_lib/images";
-import GalleryPreview from "../components/galleryPreview";
 import { GalleryData } from "../api_lib/imagesTypes";
+import GalleryPreview from "../components/galleryPreview";
 
 export async function getStaticProps() {
   const galleriesData = await gatAllGalleriesData();

@@ -1,6 +1,6 @@
-import ImagePreview from "./imagePreview";
-import { GalleryData, ImageData } from "../api_lib/imagesTypes";
 import Head from "next/head";
+import { GalleryData, ImageData } from "../api_lib/imagesTypes";
+import ImagePreview from "./imagePreview";
 
 export default function Gallery({ name, description, images }: GalleryData) {
   const result = (

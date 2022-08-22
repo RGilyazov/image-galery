@@ -1,18 +1,37 @@
 import fs from "fs";
-import fsPromises from "fs/promises";
 import path from "path";
 import { ImageData, GalleryData } from "./imagesTypes";
 
-const imagesDirectory = path.join(
+const IMAGES_DIRECTORY = path.join(
   process.cwd(),
   "externalImageLibraryData/images"
 );
+const IMAGES_API_ROUTE = "/api/externalImageLibrary/images/";
 
+type GaleryObjectType = {
+  [key: string]: {
+    name: string;
+    description: string;
+    images: string[];
+  };
+};
+
+// returns JSON object which represents whole databse
+function getGalleriesObject(): GaleryObjectType {
+  const filePath = path.resolve(".", `externalImageLibraryData`);
+  const jsonData = fs.readFileSync(filePath + "/gallery.json", "utf8");
+  return JSON.parse(jsonData);
+}
+
+//returns all image related data from image id
+//name and description should come from somewhere else
+//need to add some storage for that. JSON file for every image or
+//change format of general JSON database.
 function getImageDataFromId(id: string): ImageData {
   const fileName = `${id}.jpg`;
   const imageData: ImageData = {
     id: id,
-    src: `/api/externalImageLibrary/images/${fileName}`,
+    src: getSrcFromFileName(fileName),
     name: fileName,
     description: fileName,
     href: `/image/${id}`,
@@ -27,10 +46,15 @@ function getImageDataFromArray(ids: string[]): ImageData[] {
 function getIdFromFileName(fileName: string): string {
   return fileName.replace(/\.jpg$/, "");
 }
+function getFileNameFromId(id: string): string {
+  return `${id}.jpg`;
+}
+function getSrcFromFileName(fileName: string): string {
+  return `${IMAGES_API_ROUTE}${fileName}`;
+}
 
 export function getAllImagesIds(): { params: { id: string } }[] {
-  const fileNames = fs.readdirSync(imagesDirectory);
-
+  const fileNames = fs.readdirSync(IMAGES_DIRECTORY);
   return fileNames.map((fileName) => {
     return {
       params: {
@@ -40,87 +64,62 @@ export function getAllImagesIds(): { params: { id: string } }[] {
   });
 }
 
-export async function getImageData(
-  id: string
-): Promise<{ id: string; imageData: ImageData }> {
-  const fileName = `${id}.jpg`;
-  const filePath = path.resolve(
-    ".",
-    `externalImageLibraryData/images/${fileName}`
-  );
+export function getImageData(id: string): { id: string; imageData: ImageData } {
+  const fileName = getFileNameFromId(id);
+  const filePath = path.join(IMAGES_DIRECTORY, fileName);
   if (fs.existsSync(filePath)) {
-    const imageData: ImageData = {
-      id: id,
-      src: `/api/externalImageLibrary/images/${fileName}`,
-      name: fileName,
-      description: fileName,
-      href: `/image/${id}`,
-    };
+    const imageData = getImageDataFromId(id);
     return {
       id,
       imageData,
     };
-  } else return Promise.reject(`image ${id} not found`);
+  } else throw Error(`image ${id} not found`);
 }
 
-export async function getAllImagesData(): Promise<ImageData[]> {
-  const fileNames = fs.readdirSync(imagesDirectory);
+export function getAllImagesData(): ImageData[] {
+  const fileNames = fs.readdirSync(IMAGES_DIRECTORY);
   const allImagesData = fileNames.map((fileName) => {
     const id = getIdFromFileName(fileName);
-    return {
-      id: id,
-      src: `/api/externalImageLibrary/images/${fileName}`,
-      name: fileName,
-      description: fileName,
-      href: `/image/${id}`,
-    };
+    return getImageDataFromId(id);
   });
   return allImagesData;
 }
 
-export async function getGalleryData(galleryId: string): Promise<GalleryData> {
-  const filePath = path.resolve(".", `externalImageLibraryData`);
-  const jsonData = await fsPromises.readFile(
-    filePath + "/gallery.json",
-    "utf8"
-  );
-  const objectData = JSON.parse(jsonData);
+export function getGalleryData(galleryId: string): GalleryData {
+  const objectData = getGalleriesObject();
   if (galleryId in objectData) {
-    const gallery = objectData[galleryId];
-    gallery.images = getImageDataFromArray(gallery.images);
+    const galleryObject = objectData[galleryId];
+    const gallery = {
+      ...galleryObject,
+      images: getImageDataFromArray(galleryObject.images),
+      id: galleryId,
+    };
     return gallery;
-  } else return Promise.reject(`gallery ${galleryId} not found`);
+  } else throw Error(`gallery ${galleryId} not found`);
 }
 
-async function getGalleriesObject() {
-  const filePath = path.resolve(".", `externalImageLibraryData`);
-  const jsonData = await fsPromises.readFile(
-    filePath + "/gallery.json",
-    "utf8"
-  );
-  const galleryData = JSON.parse(jsonData);
-  return galleryData;
-}
-
-export async function gatAllGalleriesData(): Promise<GalleryData[]> {
-  const galleryData = await getGalleriesObject();
+export function gatAllGalleriesData(): GalleryData[] {
+  const galleryData = getGalleriesObject();
   const res = [];
   for (const key of Object.keys(galleryData)) {
-    galleryData[key].images = getImageDataFromArray(galleryData[key].images);
-    res.push({ id: key, ...galleryData[key] });
+    const galleryObject = galleryData[key];
+    const gallery = {
+      ...galleryObject,
+      images: getImageDataFromArray(galleryObject.images),
+      id: key,
+    };
+    res.push(gallery);
   }
 
   return res;
 }
 
-export async function getAllGalleryIds(): Promise<
-  {
-    params: {
-      id: string;
-    };
-  }[]
-> {
-  const galleryData = await getGalleriesObject();
+export function getAllGalleryIds(): {
+  params: {
+    id: string;
+  };
+}[] {
+  const galleryData = getGalleriesObject();
   return Object.keys(galleryData).map((key) => {
     return {
       params: {

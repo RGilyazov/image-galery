@@ -92,13 +92,18 @@ export async function getGalleryData(galleryId: string): Promise<GalleryData> {
   } else return Promise.reject(`gallery ${galleryId} not found`);
 }
 
-export async function gatAllGalleriesData(): Promise<GalleryData[]> {
+async function getGalleriesObject() {
   const filePath = path.resolve(".", `externalImageLibraryData`);
   const jsonData = await fsPromises.readFile(
     filePath + "/gallery.json",
     "utf8"
   );
   const galleryData = JSON.parse(jsonData);
+  return galleryData;
+}
+
+export async function gatAllGalleriesData(): Promise<GalleryData[]> {
+  const galleryData = await getGalleriesObject();
   const res = [];
   for (const key of Object.keys(galleryData)) {
     galleryData[key].images = getImageDataFromArray(galleryData[key].images);
@@ -106,4 +111,21 @@ export async function gatAllGalleriesData(): Promise<GalleryData[]> {
   }
 
   return res;
+}
+
+export async function getAllGalleryIds(): Promise<
+  {
+    params: {
+      id: string;
+    };
+  }[]
+> {
+  const galleryData = await getGalleriesObject();
+  return Object.keys(galleryData).map((key) => {
+    return {
+      params: {
+        id: key,
+      },
+    };
+  });
 }

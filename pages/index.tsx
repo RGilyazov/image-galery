@@ -4,7 +4,7 @@ import { gatAllGalleriesData } from "../api_lib/images";
 import GalleryPreview from "../components/galleryPreview";
 import { GalleryData } from "../api_lib/imagesTypes";
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
   const galleriesData = await gatAllGalleriesData();
   return {
     props: {

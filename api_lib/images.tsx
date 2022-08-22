@@ -28,17 +28,17 @@ function getIdFromFileName(fileName: string): string {
   return fileName.replace(/\.jpg$/, "");
 }
 
-// export function getAllImagesIds(): { params: { id: string } }[] {
-//   const fileNames = fs.readdirSync(imagesDirectory);
+export function getAllImagesIds(): { params: { id: string } }[] {
+  const fileNames = fs.readdirSync(imagesDirectory);
 
-//   return fileNames.map((fileName) => {
-//     return {
-//       params: {
-//         id: getIdFromFileName(fileName),
-//       },
-//     };
-//   });
-// }
+  return fileNames.map((fileName) => {
+    return {
+      params: {
+        id: getIdFromFileName(fileName),
+      },
+    };
+  });
+}
 
 export async function getImageData(
   id: string

@@ -1,10 +1,10 @@
 import Layout from "../../components/layout";
 import Head from "next/head";
-import { getImageData } from "../../api_lib/images";
+import { getImageData, getAllImagesIds } from "../../api_lib/images";
 import { ImageData } from "../../api_lib/imagesTypes";
 import GalleryImage from "../../components/galleryImage";
 
-export async function getServerSideProps({ params }) {
+export async function getStaticProps({ params }) {
   try {
     const imageData = await getImageData(params.id);
     return {
@@ -15,6 +15,14 @@ export async function getServerSideProps({ params }) {
       props: { imageData: null },
     };
   }
+}
+
+export async function getStaticPaths() {
+  const AllImagesIds = await getAllImagesIds();
+  return {
+    paths: AllImagesIds,
+    fallback: false,
+  };
 }
 
 export default function imagePage({ imageData }: { imageData: ImageData }) {

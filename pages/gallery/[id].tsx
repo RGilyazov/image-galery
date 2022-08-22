@@ -1,5 +1,4 @@
 import Layout from "../../components/layout";
-import Head from "next/head";
 import { getGalleryData, getAllGalleryIds } from "../../api_lib/images";
 import { GalleryData } from "../../api_lib/imagesTypes";
 import Gallery from "../../components/gallery";

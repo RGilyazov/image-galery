@@ -27,7 +27,7 @@ export default function GalleryPreview({
           </h1>
           <div
             className="flex flex-row justify-evenly gap-2 p-2 align-middle flex-wrap"
-            style={{ width: width, height: height }}
+            style={{ maxWidth: width }}
           >
             {images
               .filter((_, index) => index < 4)

@@ -24,13 +24,14 @@ export default function ImagePreview({
   const [imageSize, setSmageSize] = useState({
     width: width,
     height: height,
+    loaded: false,
   });
 
   return (
     <div
-      className={`overflow-hidden image-wrapper cursor-pointer border-2 bg-white border-white rounded-lg shadow-xl p-1 h-fit transition-all duration-1000 ${
+      className={`overflow-hidden image-wrapper cursor-pointer border-2 bg-white border-white rounded-lg shadow-xl p-1 h-fit transition-colors duration-1000 ${
         noHower ? "" : "hover:border-black"
-      } `}
+      } ${!imageSize.loaded ? "opacity-0" : "animate-image-loaded"} `}
     >
       <div
         style={{ maxWidth: noMaxWidth ? "100%" : width, maxHeight: height }}
@@ -45,12 +46,12 @@ export default function ImagePreview({
             height={height}
             layout="intrinsic"
             objectFit="contain"
-            placeholder="blur"
-            blurDataURL="/placeholder.jpg"
             onLoadingComplete={(target) => {
+              if (!imageSize.loaded) console.log("!");
               setSmageSize({
                 width: target.naturalWidth,
                 height: target.naturalHeight,
+                loaded: true,
               });
             }}
           />

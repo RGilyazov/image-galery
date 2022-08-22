@@ -9,7 +9,18 @@ module.exports = {
     join(__dirname, "./components/**/*.{js,ts,jsx,tsx}"),
   ],
   theme: {
-    extend: {},
+    extend: {
+      keyframes: {
+        blur: {
+          "0%": { filter: "blur(4px)", opacity: 0 },
+          "100%": { filter: "blur(0)", opacity: 0.99 },
+        },
+      },
+      animation: {
+        "image-loading": "blur 2s linear",
+        "image-loaded": "blur 0.5s linear",
+      },
+    },
     fontFamily: {
       sans: ["PT Sans", "sans-serif"],
     },

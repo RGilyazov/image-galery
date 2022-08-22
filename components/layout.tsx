@@ -6,9 +6,13 @@ export const siteTitle = "Image gallery";
 export default function Layout({
   children,
   home,
+  backLink = "/",
+  backLinkText = "← Back to home",
 }: {
   children: React.ReactNode;
   home?: boolean;
+  backLink?: string;
+  backLinkText?: string;
 }) {
   return (
     <div className="h-full flex flex-col">
@@ -24,9 +28,9 @@ export default function Layout({
       </Link>
       <main className="flex flex-grow p-2 flex-col">{children}</main>
       {!home && (
-        <Link href="/">
+        <Link href={backLink}>
           <a className="rounded-lg p-2 m-2 w-fit text-white  bg-stone-500 hover:bg-blue-800 border-solid border-2">
-            ← Back to home
+            {backLinkText}
           </a>
         </Link>
       )}

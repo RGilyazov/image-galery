@@ -1,4 +1,5 @@
 import Head from "next/head";
+import Link from "next/link";
 import { getImageData, getAllImagesIds } from "../../../../api_lib/images";
 import { ImageData } from "../../../../api_lib/imagesTypes";
 import Layout from "../../../../components/layout";
@@ -28,7 +29,10 @@ export async function getStaticPaths() {
 export default function imagePage({ imageData }: { imageData: ImageData }) {
   if (!imageData) return <h1>image not found!</h1>;
   return (
-    <Layout>
+    <Layout
+      backLink={`/gallery/${imageData.galleryId}`}
+      backLinkText=" ← Back to gallery"
+    >
       <Head>
         <title>{imageData.name}</title>
       </Head>

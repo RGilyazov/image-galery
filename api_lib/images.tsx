@@ -35,6 +35,7 @@ function getImageDataFromId(id: string, galleryId: string): ImageData {
     name: fileName,
     description: fileName,
     href: `/gallery/${galleryId}/image/${id}`,
+    galleryId: galleryId,
   };
   return imageData;
 }

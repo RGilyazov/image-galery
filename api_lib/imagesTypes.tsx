@@ -4,8 +4,8 @@ export type ImageData = {
   description: string;
   name: string;
   href: string;
+  galleryId: string;
 };
-
 export type GalleryData = {
   description: string;
   name: string;

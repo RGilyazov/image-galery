@@ -29,9 +29,10 @@ export default function ImagePreview({
 
   return (
     <div
-      className={`overflow-hidden image-wrapper cursor-pointer border-2 bg-white border-white rounded-lg shadow-xl p-1 h-fit transition-colors duration-1000 ${
-        noHower ? "" : "hover:border-black"
-      } ${!imageSize.loaded ? "opacity-0" : "--animate-image-loaded"} `}
+      className={`overflow-hidden image-wrapper cursor-pointer border-2 bg-white border-white rounded-lg
+       shadow-xl p-1 h-fit transition-all duration-1000  ${
+         noHower ? "" : "hover:shadow-focus hover:shadow-violet-900 "
+       } ${!imageSize.loaded ? "opacity-0" : "animate-image-loaded"} `}
     >
       <div
         style={{ maxWidth: noMaxWidth ? "100%" : width, maxHeight: height }}

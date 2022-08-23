@@ -16,8 +16,8 @@ export default function GalleryPreview({
 } & GalleryData) {
   const result = (
     <div
-      className={`h-fit bg-gray-50 border-2 cursor-pointer rounded-lg shadow-xl transition-all duration-1000 ${
-        noHower ? "" : "hover:bg-yellow-50 hover:shadow-2xl"
+      className={`h-fit bg-gray-50 cursor-pointer rounded-lg shadow-xl transition-all duration-1000 ${
+        noHower ? "" : "hover:shadow-focus hover:shadow-violet-900 "
       }`}
     >
       <Link href={`/gallery/${id}`}>

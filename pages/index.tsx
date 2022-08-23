@@ -23,7 +23,7 @@ export default function Home({
       <Head>
         <title>{siteTitle}</title>
       </Head>
-      <div className="flex-grow flex flex-row justify-center flex-wrap border-2 rounded-lg bg-white p-2 gap-2 overflow-hidden">
+      <div className="flex-grow flex flex-row justify-center flex-wrap border-2 rounded-lg bg-white p-2 gap-2 overflow-hidden shadow-inner">
         {galleriesData.map((galleryData: GalleryData) => (
           <GalleryPreview
             key={galleryData.id}

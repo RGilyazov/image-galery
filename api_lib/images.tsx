@@ -1,6 +1,7 @@
-import fs from "fs";
 import path from "path";
 import { ImageData, GalleryData } from "./imagesTypes";
+
+const fsAsync = require("fs").promises;
 
 const IMAGES_DIRECTORY = path.join(
   process.cwd(),
@@ -17,9 +18,9 @@ type GaleryObjectType = {
 };
 
 // returns JSON object which represents whole databse
-function getGalleriesObject(): GaleryObjectType {
+async function getGalleriesObject(): Promise<GaleryObjectType> {
   const filePath = path.resolve(".", `externalImageLibraryData`);
-  const jsonData = fs.readFileSync(filePath + "/gallery.json", "utf8");
+  const jsonData = await fsAsync.readFile(filePath + "/gallery.json", "utf8");
   return JSON.parse(jsonData);
 }
 
@@ -54,10 +55,12 @@ function getSrcFromFileName(fileName: string): string {
   return `${IMAGES_API_ROUTE}${fileName}`;
 }
 
-export function getAllImagesIds(): {
-  params: { imageId: string; galleryId: string };
-}[] {
-  const objectData = getGalleriesObject();
+export async function getAllImagesIds(): Promise<
+  {
+    params: { imageId: string; galleryId: string };
+  }[]
+> {
+  const objectData = await getGalleriesObject();
   const res = [];
   for (let galleryId of Object.keys(objectData)) {
     const galleryObject = objectData[galleryId];
@@ -73,19 +76,23 @@ export function getAllImagesIds(): {
   return res;
 }
 
-export function getImageData(
+export async function getImageData(
   id: string,
   galleryId: string
-): { id: string; imageData: ImageData } {
+): Promise<{ id: string; imageData: ImageData }> {
   const fileName = getFileNameFromId(id);
   const filePath = path.join(IMAGES_DIRECTORY, fileName);
-  if (fs.existsSync(filePath)) {
-    const imageData = getImageDataFromId(id, galleryId);
-    return {
-      id,
-      imageData,
-    };
-  } else throw Error(`image ${id} not found`);
+  try {
+    await fsAsync.access(filePath);
+  } catch (error) {
+    throw Error(`image ${id} not found`);
+  }
+
+  const imageData = getImageDataFromId(id, galleryId);
+  return {
+    id,
+    imageData,
+  };
 }
 
 /* export function getAllImagesData(): ImageData[] {
@@ -97,8 +104,8 @@ export function getImageData(
   return allImagesData;
 } */
 
-export function getGalleryData(galleryId: string): GalleryData {
-  const objectData = getGalleriesObject();
+export async function getGalleryData(galleryId: string): Promise<GalleryData> {
+  const objectData = await getGalleriesObject();
   if (galleryId in objectData) {
     const galleryObject = objectData[galleryId];
     const gallery = {
@@ -110,8 +117,8 @@ export function getGalleryData(galleryId: string): GalleryData {
   } else throw Error(`gallery ${galleryId} not found`);
 }
 
-export function gatAllGalleriesData(): GalleryData[] {
-  const galleryData = getGalleriesObject();
+export async function gatAllGalleriesData(): Promise<GalleryData[]> {
+  const galleryData = await getGalleriesObject();
   const res = [];
   for (const key of Object.keys(galleryData)) {
     const galleryObject = galleryData[key];
@@ -126,12 +133,14 @@ export function gatAllGalleriesData(): GalleryData[] {
   return res;
 }
 
-export function getAllGalleryIds(): {
-  params: {
-    galleryId: string;
-  };
-}[] {
-  const galleryData = getGalleriesObject();
+export async function getAllGalleryIds(): Promise<
+  {
+    params: {
+      galleryId: string;
+    };
+  }[]
+> {
+  const galleryData = await getGalleriesObject();
   return Object.keys(galleryData).map((key) => {
     return {
       params: {

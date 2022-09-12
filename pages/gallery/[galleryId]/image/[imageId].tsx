@@ -7,7 +7,7 @@ import GalleryImage from "../../../../components/galleryImage";
 
 export async function getStaticProps({ params }) {
   try {
-    const imageData = getImageData(params.imageId, params.galleryId);
+    const imageData = await getImageData(params.imageId, params.galleryId);
     return {
       props: imageData,
     };
@@ -19,7 +19,7 @@ export async function getStaticProps({ params }) {
 }
 
 export async function getStaticPaths() {
-  const AllImagesIds = getAllImagesIds();
+  const AllImagesIds = await getAllImagesIds();
   return {
     paths: AllImagesIds,
     fallback: false,
